@@ -13,25 +13,28 @@ def log(sql, args=()):
 async def create_pool(loop, **kw):
     logging.info('create database connection pool...')
     global __pool
-    __pool = await aiomysql.create_pool(
-        host=kw.get('host', 'localhost'),
+    __pool = await aiomysql.create_pool(      #这个__pool是一个元组？
+        host=kw.get('host', 'localhost'),   #dict提供的get方法
         port=kw.get('port', 3306),
         user=kw['user'],
-        password=kw['password'],
-        db=kw['db'],
+        password=kw['password'],#password   这里的password是：  ？
+        #print (kw['password'])
+        db=kw['test'],  #  kw['db']改为['test']
         charset=kw.get('charset', 'utf8'),
         autocommit=kw.get('autocommit', True),
         maxsize=kw.get('maxsize', 10),
         minsize=kw.get('minsize', 1),
-        loop=loop
+        loop=loop    #loop是一个怎样的参数？ 就是一个循环。
     )
+
 
 async def select(sql, args, size=None):
     log(sql, args)
     global __pool
-    async with __pool.get() as conn:
+    async with __pool.get() as conn:   # with open( "a.txt" ) as f 
         async with conn.cursor(aiomysql.DictCursor) as cur:
-            await cur.execute(sql.replace('?', '%s'), args or ())
+            await cur.execute(sql.replace('?', '%s'), args or ())  
+            #这个replace是属于aiomysql还是属于通用的。
             if size:
                 rs = await cur.fetchmany(size)
             else:
@@ -39,9 +42,9 @@ async def select(sql, args, size=None):
         logging.info('rows returned: %s' % len(rs))
         return rs
 
-async def execute(sql, args, autocommit=True):
+async def execute(sql, args, autocommit=True):    #这里怎么实现insert ,delete,update
     log(sql)
-    async with __pool.get() as conn:
+    async with __pool.get() as conn:    #这个语句是什么意思？
         if not autocommit:
             await conn.begin()
         try:
