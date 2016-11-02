@@ -7,8 +7,8 @@ import asyncio, logging
 
 import aiomysql
 
-def log(sql, args=()):
-    logging.info('SQL: %s' % sql)
+def log(sql, args=()):    #这有什么用？
+    logging.info('SQL: %s' % sql)   #logging模块是表示登录信息的？
 
 async def create_pool(loop, **kw):
     logging.info('create database connection pool...')
@@ -30,7 +30,7 @@ async def create_pool(loop, **kw):
 
 async def select(sql, args, size=None):
     log(sql, args)
-    global __pool
+    global __pool   #前面已经申明了全局变量，这里有必要又说一遍吗？
     async with __pool.get() as conn:   # with open( "a.txt" ) as f 
         async with conn.cursor(aiomysql.DictCursor) as cur:
             await cur.execute(sql.replace('?', '%s'), args or ())  
@@ -76,12 +76,12 @@ class Field(object):
     def __str__(self):
         return '<%s, %s:%s>' % (self.__class__.__name__, self.column_type, self.name)
 
-class StringField(Field):
+class StringField(Field):   #这是什么意思？ string字符串？
 
     def __init__(self, name=None, primary_key=False, default=None, ddl='varchar(100)'):
         super().__init__(name, ddl, primary_key, default)
 
-class BooleanField(Field):
+class BooleanField(Field):        #布尔？
 
     def __init__(self, name=None, default=False):
         super().__init__(name, 'boolean', False, default)
@@ -101,9 +101,9 @@ class TextField(Field):
     def __init__(self, name=None, default=None):
         super().__init__(name, 'text', False, default)
 
-class ModelMetaclass(type):
-
-    def __new__(cls, name, bases, attrs):
+class ModelMetaclass(type):   #这是什么？meta是后设的意思。type是参数还是继承？
+# metaclass是类的模板，所以必须从`type`类型派生：
+    def __new__(cls, name, bases, attrs):  #__new__是不是特殊方法？
         if name=='Model':
             return type.__new__(cls, name, bases, attrs)
         tableName = attrs.get('__table__', None) or name
@@ -137,8 +137,8 @@ class ModelMetaclass(type):
         attrs['__delete__'] = 'delete from `%s` where `%s`=?' % (tableName, primaryKey)
         return type.__new__(cls, name, bases, attrs)
 
-class Model(dict, metaclass=ModelMetaclass):
-
+class Model(dict, metaclass=ModelMetaclass):  #Model从dict继承，所以具备所有dict的功能
+#metaclass=ModelMetaclass  是什么意思？
     def __init__(self, **kw):
         super(Model, self).__init__(**kw)
 
