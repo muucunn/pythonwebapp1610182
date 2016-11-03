@@ -111,6 +111,7 @@ def datetime_filter(t):
 
 async def init(loop):
     await orm.create_pool(loop=loop, host='127.0.0.1', port=3306, user='www', password='www', db='awesome')
+#这个user,password,db要改。201611031459    
     app = web.Application(loop=loop, middlewares=[
         logger_factory, response_factory
     ])
