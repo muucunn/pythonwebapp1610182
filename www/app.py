@@ -32,7 +32,7 @@ def init_jinja2(app, **kw):
     if path is None:
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
     logging.info('set jinja2 template path: %s' % path)
-    env = Environment(loader=FileSystemLoader(path), **options)
+    env = Environment(loader=FileSystemLoader(path), **options)#jinja2解决什么问题？
     filters = kw.get('filters', None)
     if filters is not None:
         for name, f in filters.items():
