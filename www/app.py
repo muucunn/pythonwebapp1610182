@@ -110,8 +110,9 @@ def datetime_filter(t):
     return u'%s年%s月%s日' % (dt.year, dt.month, dt.day)
 
 async def init(loop):
-    await orm.create_pool(loop=loop, host='127.0.0.1', port=3306, user='www', password='www', db='awesome')
-#这个user,password,db要改。201611031459    
+    await orm.create_pool(loop=loop, host='127.0.0.1', port=3306, user='root', password='', db='test')
+#这个user,password,db要改。201611031459    password='www'改为：password=''  ，user='www'改为：user='root' 
+    #db='awesome'改为db='test'  201611050654
     app = web.Application(loop=loop, middlewares=[
         logger_factory, response_factory
     ])
