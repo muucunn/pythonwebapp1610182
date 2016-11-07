@@ -12,11 +12,17 @@ configs = {
     'db': {
         'host': '127.0.0.1',
         'port': 3306,
-        'user': '', #www
-        'password': '', #www
-        'db': 'test' #  awesome
+        'user': 'root',  #www
+        'password': '',  #www
+        'db': 'test' #awesome
     },
     'session': {
         'secret': 'Awesome'
     }
 }
+
+
+'''
+ password='www'改为：password=''  ，user='www'改为：user='root' 
+    #db='awesome'改为db='test'  201611080645
+'''
