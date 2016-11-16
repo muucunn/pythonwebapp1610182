@@ -187,7 +187,7 @@ def api_register_user(*, email, name, passwd):
     r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
     return r
 
-@get('/api/blogs')
+@get('/api/blogs')  # 怎样来理解这个。
 def api_blogs(*, page='1'):
     page_index = get_page_index(page)
     num = yield from Blog.findNumber('count(id)')
@@ -214,3 +214,5 @@ def api_create_blog(request, *, name, summary, content):
     blog = Blog(user_id=request.__user__.id, user_name=request.__user__.name, user_image=request.__user__.image, name=name.strip(), summary=summary.strip(), content=content.strip())
     yield from blog.save()
     return blog
+#
+#
