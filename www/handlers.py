@@ -26,7 +26,8 @@ def index(request):
 
 @get('/api/users')
 def api_get_users():
-    users = yield from User.findAll(orderBy='created_at desc')
+    users = yield from User.findAll(orderBy='created_at desc')  #这句话，什么意思？
+    #findAll 来自orm,没有import orm怎么可以用findAll.
     for u in users:
         u.passwd = '******'
     return dict(users=users)
