@@ -13,10 +13,10 @@ from apis import APIError
 
 def get(path):
     '''
-    Define decorator @get('/path')
+    Define decorator @get('/path')  
     '''
     def decorator(func):
-        @functools.wraps(func)
+        @functools.wraps(func)    #这个装饰器，从哪里来的？从上面。
         def wrapper(*args, **kw):
             return func(*args, **kw)
         wrapper.__method__ = 'GET'
