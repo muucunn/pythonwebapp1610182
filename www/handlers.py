@@ -24,10 +24,10 @@ def check_admin(request):
     if request.__user__ is None or not request.__user__.admin:
         raise APIPermissionError()
 
-def get_page_index(page_str):
+def get_page_index(page_str):   #这个函数看不懂。应该是获取页码。zmz
     p = 1
     try:
-        p = int(page_str)
+        p = int(page_str)  #这是什么意思？应该是页码，把页码变为int
     except ValueError as e:
         pass
     if p < 1:
@@ -74,12 +74,12 @@ def cookie2user(cookie_str):
     except Exception as e:
         logging.exception(e)
         return None
-
+'''
 @get('/')
 def index(request):
     summary = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     blogs = [
-        Blog(id='1', name='Test Blog', summary=summary, created_at=time.time()-120),
+        Blog(id='1', name='测试博客', summary=summary, created_at=time.time()-120),
         Blog(id='2', name='Something New', summary=summary, created_at=time.time()-3600),
         Blog(id='3', name='Learn Swift', summary=summary, created_at=time.time()-7200)
     ]
@@ -87,6 +87,20 @@ def index(request):
         '__template__': 'blogs.html',
         'blogs': blogs
     }
+'''    
+@get('/')
+def index(request):
+    summary = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    blogs = [
+        Blog(id='1', name='测试博客', summary=summary, created_at=time.time()-120),
+        Blog(id='2', name='Something New', summary=summary, created_at=time.time()-3600),
+        Blog(id='3', name='Learn Swift', summary=summary, created_at=time.time()-7200)
+    ]
+    return {
+        '__template__': 'blogs.html',#应该修改这个html,    zmz
+        'blogs': blogs  
+    }
+#这里要大改，要改成动态页面。要去数据库取数据。怎么取呢？参考“GET/manage/blogs”    201611181641
 
 @get('/blog/{id}')
 def get_blog(id):
@@ -149,8 +163,8 @@ def signout(request):
 @get('/manage/blogs')
 def manage_blogs(*, page='1'):
     return {
-        '__template__': 'manage_blogs.html',
-        'page_index': get_page_index(page)
+        '__template__': 'manage_blogs.html',#这个html,里面的数据怎么传的。
+        'page_index': get_page_index(page)   #get_page_index(page)这个没有搞懂。201611191102
     }
 
 @get('/manage/blogs/create')
