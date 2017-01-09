@@ -17,7 +17,7 @@ from apis import Page, APIValueError, APIResourceNotFoundError
 from models import User, Comment, Blog, next_id
 from config import configs
 
-COOKIE_NAME = 'awesession'
+COOKIE_NAME = 'awesession'    #这句话是什么意思？20161201
 _COOKIE_KEY = configs.session.secret
 
 def check_admin(request):
@@ -94,7 +94,8 @@ def index(request):
     blogs = [
         Blog(id='1', name='测试博客', summary=summary, created_at=time.time()-120),
         Blog(id='2', name='Something New', summary=summary, created_at=time.time()-3600),
-        Blog(id='3', name='Learn Swift', summary=summary, created_at=time.time()-7200)
+        Blog(id='3', name='Learn Swift', summary=summary, created_at=time.time()-7200),
+        Blog(id='4', name='zmz', summary='summary', created_at=time.time()-7200)
     ]
     return {
         '__template__': 'blogs.html',#应该修改这个html,    zmz
@@ -172,7 +173,7 @@ def manage_create_blog():
     return {
         '__template__': 'manage_blog_edit.html',
         'id': '',
-        'action': '/api/blogs'
+        'action': '/api/blogs'   #这里有意思了，取一个模版，调用一个api，去取数据。就这么简单任性。201611301605
     }
 
 _RE_EMAIL = re.compile(r'^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$')
